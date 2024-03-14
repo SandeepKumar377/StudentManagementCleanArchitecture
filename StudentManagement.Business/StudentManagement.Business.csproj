@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StudentManagement.Data\StudentManagement.Data.csproj" />
+    <ProjectReference Include="..\StudentManagement.Models\StudentManagement.Models.csproj" />
+  </ItemGroup>
+
 </Project>

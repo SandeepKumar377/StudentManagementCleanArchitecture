@@ -1,7 +1,11 @@
+using StudentManagement.Business.Implementations;
+using StudentManagement.Business.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAccountBL, AccountBL>();
 
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
