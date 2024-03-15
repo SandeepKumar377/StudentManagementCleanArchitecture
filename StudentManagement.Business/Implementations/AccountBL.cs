@@ -35,6 +35,34 @@ namespace StudentManagement.Business.Implementations
            
         }
 
+        public PagingResultVM<TeacherVM> GetAllTeacher(int pageNumber, int pageSize)
+        {
+            try
+            {
+                int excludeRecords = (pageSize * pageNumber) - pageSize;
+                var teacherList = _unitOfWork.GenericRepository<User>().GetAll()
+                    .Where(x => x.Role == (int)EnumRoles.Teacher)
+                    .Skip(excludeRecords).Take(pageSize).Select(s=> new TeacherVM()
+                    {
+                        UserName=s.UserName,
+                        Name=s.Name,
+                        Role=s.Role.ToString()
+                    }).ToList();
+                var result = new PagingResultVM<TeacherVM>
+                {
+                    Data = teacherList,
+                    TotalItems = _unitOfWork.GenericRepository<User>().GetAll().Where(x => x.Role == (int)EnumRoles.Teacher).Count(),
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+                return result;
+            }
+            catch (Exception)
+            {
+                return new PagingResultVM<TeacherVM>();
+            }
+        }
+
         public LoginVM Login(LoginVM loginVM)
         {
             var user =_unitOfWork.GenericRepository<User>().GetAll().FirstOrDefault(x=>x.UserName==loginVM.UserName!.Trim() && 

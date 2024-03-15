@@ -12,6 +12,14 @@ namespace StudentManagement.Presentation.Controllers
         {
             _accountBL = accountBL;
         }
+
+        [HttpGet]
+        public IActionResult GetAllTeacher(int pageNumber, int pageSize)
+        {
+            var result = _accountBL.GetAllTeacher(pageNumber, pageSize);
+            return View(result);
+        }
+        
         [HttpGet]
         public IActionResult Create()
         {
