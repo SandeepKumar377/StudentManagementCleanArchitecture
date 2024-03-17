@@ -11,7 +11,7 @@ namespace StudentManagement.Business.Interfaces
     {
         PagingResultVM<GroupVM> GetAllGroupWithPaging(int pageNumber, int pageSize);
         IEnumerable<GroupVM> GetAllGroup();
-        GroupVM GetGroup(int id);
+        Task<GroupVM> GetGroup(int id);
         GroupVM AddGroup(GroupVM group);
     }
 }

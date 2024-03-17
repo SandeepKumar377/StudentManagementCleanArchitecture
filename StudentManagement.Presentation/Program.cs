@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAccountBL, AccountBL>();
+builder.Services.AddScoped<IGroupBL, GroupBL>();
 
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();

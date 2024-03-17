@@ -38,7 +38,7 @@ namespace StudentManagement.Data.Repository
             _dbSet.Remove(entity);
         }
 
-        public async Task<T> DeleteAsync(T entity)
+        public T DeleteAsync(T entity)
         {
             if (_context.Entry(entity).State == EntityState.Deleted)
             {
@@ -102,7 +102,8 @@ namespace StudentManagement.Data.Repository
 
         public async Task<T> GetByIdAsync(object id)
         {
-            return await _dbSet.FindAsync(id);
+            var result = await _dbSet.FindAsync(id);
+            return result!;
         }
 
         public void Update(T entity)
@@ -111,7 +112,7 @@ namespace StudentManagement.Data.Repository
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public T UpdateAsync(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

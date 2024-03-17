@@ -25,7 +25,7 @@ namespace StudentManagement.Business.Implementations
             {
                 Group group = new Group()
                 {
-                    Name = groupVM.Name,
+                    GroupName = groupVM.GroupName,
                     Description = groupVM.Description,
                 };
                 _unitOfWork.GenericRepository<Group>().Add(group);
@@ -36,7 +36,7 @@ namespace StudentManagement.Business.Implementations
             {
                 return null!;
             }
-          
+
         }
 
         public PagingResultVM<GroupVM> GetAllGroupWithPaging(int pageNumber, int pageSize)
@@ -47,9 +47,9 @@ namespace StudentManagement.Business.Implementations
                 var groupList = _unitOfWork.GenericRepository<Group>().GetAll()
                     .Skip(excludeRecords).Take(pageSize).Select(s => new GroupVM()
                     {
-                       Id = s.Id,
-                       Name = s.Name,
-                       Description = s.Description,
+                        GroupId = s.GroupId,
+                        GroupName = s.GroupName,
+                        Description = s.Description,
                     }).ToList();
                 var result = new PagingResultVM<GroupVM>
                 {
@@ -73,11 +73,11 @@ namespace StudentManagement.Business.Implementations
                 var groupList = _unitOfWork.GenericRepository<Group>().GetAll()
                     .Select(s => new GroupVM()
                     {
-                        Id = s.Id,
-                        Name = s.Name,
+                        GroupId = s.GroupId,
+                        GroupName = s.GroupName,
                         Description = s.Description,
                     }).ToList();
-               
+
                 return groupList;
             }
             catch (Exception)
@@ -86,15 +86,15 @@ namespace StudentManagement.Business.Implementations
             }
         }
 
-        public GroupVM GetGroup(int id)
+        public async Task<GroupVM> GetGroup(int id)
         {
             try
             {
-                var group = _unitOfWork.GenericRepository<Group>().GetById(id);
+                var group = await _unitOfWork.GenericRepository<Group>().GetByIdAsync(id);
                 GroupVM groupVM = new GroupVM()
                 {
-                    Id = group.Id,
-                    Name = group.Name,
+                    GroupId = group.GroupId,
+                    GroupName = group.GroupName,
                     Description = group.Description,
                 };
                 return groupVM!;

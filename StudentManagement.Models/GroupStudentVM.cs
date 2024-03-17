@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Models
 {
-    public class TeacherVM
+    public class GroupStudentVM
     {
-        public string? TeacherName { get; set; }
-        public string? TeacherUserName { get; set; }
-        public string? Role { get; set; }
+        public int GroupId { get; set; }
+        public List<CheckBoxTable>? CheckBoxTables { get; set; }
     }
 }

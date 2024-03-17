@@ -42,11 +42,11 @@ namespace StudentManagement.Business.Implementations
                 int excludeRecords = (pageSize * pageNumber) - pageSize;
                 var teacherList = _unitOfWork.GenericRepository<User>().GetAll()
                     .Where(x => x.Role == (int)EnumRoles.Teacher)
-                    .Skip(excludeRecords).Take(pageSize).Select(s=> new TeacherVM()
+                    .Skip(excludeRecords).Take(pageSize).Select(s => new TeacherVM()
                     {
-                        UserName=s.UserName,
-                        Name=s.Name,
-                        Role=s.Role.ToString()
+                        TeacherUserName = s.UserName,
+                        TeacherName = s.Name,
+                        Role = s.Role.ToString()
                     }).ToList();
                 var result = new PagingResultVM<TeacherVM>
                 {
@@ -65,14 +65,28 @@ namespace StudentManagement.Business.Implementations
 
         public LoginVM Login(LoginVM loginVM)
         {
-            var user =_unitOfWork.GenericRepository<User>().GetAll().FirstOrDefault(x=>x.UserName==loginVM.UserName!.Trim() && 
-            x.Password==loginVM.Password && x.Role==loginVM.Role);
-            if (user!=null)
+            if (loginVM.Role==(int)EnumRoles.Teacher || loginVM.Role == (int)EnumRoles.Admin)
             {
-                loginVM.Id = user.UserId;
-                loginVM.UserName = user.UserName;
-                return loginVM;
+                var user = _unitOfWork.GenericRepository<User>().GetAll().FirstOrDefault(x => x.UserName == loginVM.UserName!.Trim() 
+                && x.Password == loginVM.Password && x.Role == loginVM.Role);
+                if (user != null)
+                {
+                    loginVM.Id = user.UserId;
+                    loginVM.UserName = user.UserName;
+                    return loginVM;
+                }
+            }else
+            {
+                var user = _unitOfWork.GenericRepository<Student>().GetAll().FirstOrDefault(x => x.StudentUserName == loginVM.UserName!.Trim() &&
+                x.Password == loginVM.Password);
+                if (user != null)
+                {
+                    loginVM.Id = user.StudentId;
+                    loginVM.UserName = user.StudentUserName;
+                    return loginVM;
+                }
             }
+           
             return null!;
         }
     }

@@ -20,8 +20,8 @@ namespace StudentManagement.Data.Repository
         Task<T> AddAsync(T entity);
         void DeleteById(object id);
         void Delete(T entity);
-        Task<T> DeleteAsync(T entity);
+        T DeleteAsync(T entity);
         void Update(T entity);
-        Task<T> UpdateAsync(T entity);
+        T UpdateAsync(T entity);
     } 
 }
