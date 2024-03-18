@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Business.Interfaces
 {
-    public interface IStudentBL
+    public interface IExamBL
     {
-        Task<int> CreateStudentAsync(CreateStudentVM studentVM);
-        IEnumerable<StudentVM> GetAllStudent();
-        bool SetGroupIdToStudent(GroupStudentVM groupStudentVM);
+        PagingResultVM<ExamVM> GetAllExam(int pageNumber, int pageSize);
+        bool AddExam(ExamVM examVM);
     }
 }

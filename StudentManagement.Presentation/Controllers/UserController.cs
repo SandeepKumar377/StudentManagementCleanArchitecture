@@ -21,13 +21,13 @@ namespace StudentManagement.Presentation.Controllers
         }
         
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateUser()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(UserVM userVM)
+        public IActionResult CreateUser(UserVM userVM)
         {
             if (ModelState.IsValid)
             {

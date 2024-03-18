@@ -44,7 +44,7 @@ namespace StudentManagement.Presentation.Controllers
             GroupStudentVM groupStudentVM = new GroupStudentVM();
             var group = await _groupBL.GetGroup(groupId);
             var students = _studentBL.GetAllStudent();
-            groupStudentVM.GroupId=group.GroupId;
+            groupStudentVM.GroupId = group.GroupId;
             foreach (var student in students)
             {
                 groupStudentVM.CheckBoxTables!.Add(new CheckBoxTable
@@ -53,6 +53,17 @@ namespace StudentManagement.Presentation.Controllers
                     Name = student.StudentName,
                     IsChecked = false
                 });
+            }
+            return View(groupStudentVM);
+        }
+        
+        [HttpPost]
+        public IActionResult GroupDetails(GroupStudentVM groupStudentVM)
+        {
+            bool result = _studentBL.SetGroupIdToStudent(groupStudentVM);
+            if (result)
+            {
+                return RedirectToAction("GetAllGroup");
             }
             return View(groupStudentVM);
         }

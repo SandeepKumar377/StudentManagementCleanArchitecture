@@ -65,5 +65,31 @@ namespace StudentManagement.Business.Implementations
                 return new List<StudentVM>();
             }             
         }
+
+        public bool SetGroupIdToStudent(GroupStudentVM groupStudentVM)
+        {
+            try
+            {
+                foreach (var item in groupStudentVM.CheckBoxTables!)
+                {
+                    var student = _unitOfWork.GenericRepository<Student>().GetById(item.Id);
+                    if (item.IsChecked)
+                    {
+                        student.GroupId = groupStudentVM.GroupId;
+                        _unitOfWork.GenericRepository<Student>().Update(student);
+                    }
+                    else
+                    {
+                        student.GroupId = null;
+                    }
+                }
+                _unitOfWork.Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

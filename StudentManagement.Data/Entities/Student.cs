@@ -15,6 +15,6 @@ namespace StudentManagement.Data.Entities
         public string? Contact { get; set; }
         public string? CVFileUrl { get; set; }
         public string? ProfilePictureUrl { get; set; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
     }
 }
