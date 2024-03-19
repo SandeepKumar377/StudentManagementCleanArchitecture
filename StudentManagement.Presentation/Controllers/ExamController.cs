@@ -17,7 +17,7 @@ namespace StudentManagement.Presentation.Controllers
         }
         public IActionResult GetAllExam(int pageNumber=1, int pageSize=10)
         {
-            var examList = _examBL.GetAllExam(pageNumber, pageSize); 
+            var examList = _examBL.GetAllExamWithPaging(pageNumber, pageSize); 
             return View(examList);
         }
 

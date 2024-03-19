@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace StudentManagement.Business.Interfaces
 {
-    public interface IExamBL
+    public interface IQnAsBL
     {
-        PagingResultVM<ExamVM> GetAllExamWithPaging(int pageNumber, int pageSize);
-        bool AddExam(ExamVM examVM);
-        IEnumerable<ExamVM> GetAllExamList();
+        bool CreateQnAs(QnAsVM qnAsVM);
+        PagingResultVM<QnAsVM> GetAllQnAsWithPaging(int pageNumber, int pageSize);
     }
 }

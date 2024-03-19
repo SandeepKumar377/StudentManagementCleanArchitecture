@@ -40,7 +40,7 @@ namespace StudentManagement.Business.Implementations
             }
         }
 
-        public PagingResultVM<ExamVM> GetAllExam(int pageNumber, int pageSize)
+        public PagingResultVM<ExamVM> GetAllExamWithPaging(int pageNumber, int pageSize)
         {
             try
             {
@@ -68,6 +68,27 @@ namespace StudentManagement.Business.Implementations
             {
                 return new PagingResultVM<ExamVM>();
             }
+        }
+
+        public IEnumerable<ExamVM> GetAllExamList()
+        {
+            try
+            {
+                var examList = _unitOfWork.GenericRepository<Exam>().GetAll().Select(x => new ExamVM()
+                {
+                    ExamId = x.ExamId,
+                    Description = x.Description,
+                    StartDate = x.StartDate,
+                    GroupId = x.GroupId,
+                    Time = x.Time,
+                    Title = x.Title,
+                }).ToList();   
+                return examList;
+            }
+            catch (Exception)
+            {
+                return new List<ExamVM>();  
+            }          
         }
     }
 }
