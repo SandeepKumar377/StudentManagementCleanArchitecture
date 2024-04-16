@@ -11,6 +11,7 @@ namespace StudentManagement.Business.Interfaces
     {
         Task<int> CreateStudentAsync(CreateStudentVM studentVM);
         IEnumerable<StudentVM> GetAllStudent();
+        bool SetExamResult(AttendExamVM attendExamVM);
         bool SetGroupIdToStudent(GroupStudentVM groupStudentVM);
     }
 }

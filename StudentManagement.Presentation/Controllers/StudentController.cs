@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StudentManagement.Business.Interfaces;
 using StudentManagement.Models;
 
@@ -7,10 +8,17 @@ namespace StudentManagement.Presentation.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentBL _studentBL;
+        private readonly IExamBL _examBL;
+        private readonly IQnAsBL _qnAsBL;
 
-        public StudentController(IStudentBL studentBL)
+        public StudentController(IStudentBL studentBL, 
+            IExamBL examBL,
+            IQnAsBL qnAsBL
+            )
         {
             _studentBL = studentBL;
+            _examBL = examBL;
+            _qnAsBL = qnAsBL;
         }
 
         [HttpGet]
@@ -37,6 +45,46 @@ namespace StudentManagement.Presentation.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult AttendExam()
+        {
+            AttendExamVM attendExamVM = new AttendExamVM();
+            string loginObj = HttpContext.Session.GetString("loginDeatils")!;
+            LoginVM loginVM = JsonConvert.DeserializeObject<LoginVM>(loginObj)!;
+            if (loginVM == null)
+            {
+                attendExamVM.StudentId = loginVM!.Id;
+                var todayExam = _examBL.GetAllExamList().Where(x => x.StartDate.Date == DateTime.Today.Date).FirstOrDefault();
+                if (todayExam== null)
+                {
+                    attendExamVM.Message = "No Exam Scheduled today!";
+                    return View(attendExamVM);
+                }
+                else
+                {
+                    if (!_qnAsBL.IsAttendExam(todayExam.ExamId, attendExamVM.StudentId))
+                    {
+                        attendExamVM.QnAsVMs= _qnAsBL.GetAllQnAsByExamId(todayExam.ExamId).ToList();
+                        attendExamVM.ExamName = todayExam.Title;
+                        return View(attendExamVM);
+                    }
+                    else
+                    {
+                        attendExamVM.Message = "You have already attended this exam!";
+                        return View(attendExamVM);
+                    }
+                }
+            }
+            return RedirectToAction("Login", "Account");
+        }
+          
+        [HttpPost]
+        public IActionResult AttendExam(AttendExamVM attendExamVM)
+        {
+            bool result = _studentBL.SetExamResult(attendExamVM);
+            return RedirectToAction("");
         }
     }
 }

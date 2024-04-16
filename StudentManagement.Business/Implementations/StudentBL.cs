@@ -66,6 +66,29 @@ namespace StudentManagement.Business.Implementations
             }             
         }
 
+        public bool SetExamResult(AttendExamVM attendExamVM)
+        {
+            try
+            {
+                foreach (var item in attendExamVM.QnAsVMs!)
+                {
+                    ExamResult result = new ExamResult();
+                    result.StudentId = attendExamVM.StudentId;
+                    result.ExamId = item.ExamId;
+                    result.QnAsId = item.QnAsId;
+                    result.Answer = item.Answer;
+                    _unitOfWork.GenericRepository<ExamResult>().Add(result);
+                    _unitOfWork.Save();
+                    return true; 
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return false;
+        }
+
         public bool SetGroupIdToStudent(GroupStudentVM groupStudentVM)
         {
             try

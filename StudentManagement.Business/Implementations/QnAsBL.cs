@@ -42,6 +42,24 @@ namespace StudentManagement.Business.Implementations
             }
         }
 
+        public IEnumerable<QnAsVM> GetAllQnAsByExamId(int examId)
+        {
+            var qnAs = _unitOfWork.GenericRepository<QnAs>().GetAll()
+                .Where(x => x.ExamId == examId).Select(s => new QnAsVM()
+                {
+                    QuestionTitle = s.QuestionTitle,
+                    ExamId = s.ExamId,
+                    Answer = s.Answer,
+                    QnAsId = s.QnAsId,
+                    Option1 = s.Option1,
+                    Option2 = s.Option2,
+                    Option3 = s.Option3,
+                    Option4 = s.Option4,
+                }).ToList();
+            return qnAs;
+
+        }
+
         public PagingResultVM<QnAsVM> GetAllQnAsWithPaging(int pageNumber, int pageSize)
         {
             try
@@ -72,6 +90,13 @@ namespace StudentManagement.Business.Implementations
             {
                 return new PagingResultVM<QnAsVM>();
             }
+        }
+
+        public bool IsAttendExam(int examId, int studentId)
+        {
+            var result = _unitOfWork.GenericRepository<ExamResult>().GetAll()
+                .Where(x => x.ExamId == examId && x.StudentId == studentId);
+            return result==null?false: true;
         }
     }
 }

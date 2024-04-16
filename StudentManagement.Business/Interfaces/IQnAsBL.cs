@@ -11,5 +11,7 @@ namespace StudentManagement.Business.Interfaces
     {
         bool CreateQnAs(QnAsVM qnAsVM);
         PagingResultVM<QnAsVM> GetAllQnAsWithPaging(int pageNumber, int pageSize);
+        bool IsAttendExam(int examId, int studentId);
+        IEnumerable<QnAsVM> GetAllQnAsByExamId(int examId);
     }
 }
