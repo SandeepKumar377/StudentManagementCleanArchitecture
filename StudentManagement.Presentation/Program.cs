@@ -1,12 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using StudentManagement.Business.Implementations;
 using StudentManagement.Business.Interfaces;
+using StudentManagement.Data;
+using StudentManagement.Data.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAccountBL, AccountBL>();
 builder.Services.AddScoped<IGroupBL, GroupBL>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+});
 
 #if DEBUG
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -24,7 +35,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

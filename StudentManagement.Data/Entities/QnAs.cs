@@ -16,5 +16,7 @@ namespace StudentManagement.Data.Entities
         public string? Option2 { get; set; }
         public string? Option3 { get; set; }
         public string? Option4 { get; set; }
+        public virtual Exam? Exam { get; set; }
+        //public virtual ICollection<ExamResult>? ExamResults { get; set; }
     }
 }

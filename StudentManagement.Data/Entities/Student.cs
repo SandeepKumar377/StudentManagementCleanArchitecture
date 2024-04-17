@@ -16,5 +16,7 @@ namespace StudentManagement.Data.Entities
         public string? CVFileUrl { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public int? GroupId { get; set; }
+        public virtual Group? Group { get; set; }
+        public virtual ICollection<ExamResult>? ExamResults { get; set; }
     }
 }

@@ -86,5 +86,11 @@ namespace StudentManagement.Presentation.Controllers
             bool result = _studentBL.SetExamResult(attendExamVM);
             return RedirectToAction("");
         }
+
+        public IActionResult Result(int studentId)
+        {
+            var data = _studentBL.GetExamResults(studentId);
+            return View(data);
+        }
     }
 }

@@ -14,5 +14,8 @@ namespace StudentManagement.Data.Entities
         public DateTime StartDate { get; set; }
         public int Time { get; set; }
         public int GroupId { get; set; }
+        public virtual Group? Group { get; set; }
+        public virtual ICollection<ExamResult>? ExamResults { get; set; }
+        public virtual ICollection<QnAs>? QnAs { get; set; }
     }
 }

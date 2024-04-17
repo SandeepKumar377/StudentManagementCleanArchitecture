@@ -66,6 +66,19 @@ namespace StudentManagement.Business.Implementations
             }             
         }
 
+        public IEnumerable<ResultVM> GetExamResults(int studentId)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
         public bool SetExamResult(AttendExamVM attendExamVM)
         {
             try
@@ -75,7 +88,7 @@ namespace StudentManagement.Business.Implementations
                     ExamResult result = new ExamResult();
                     result.StudentId = attendExamVM.StudentId;
                     result.ExamId = item.ExamId;
-                    result.QnAsId = item.QnAsId;
+                    //result.QnAsId = item.QnAsId;
                     result.Answer = item.Answer;
                     _unitOfWork.GenericRepository<ExamResult>().Add(result);
                     _unitOfWork.Save();
