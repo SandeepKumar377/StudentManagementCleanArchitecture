@@ -14,7 +14,7 @@ namespace StudentManagement.Presentation.Controllers
             _groupBL = groupBL;
             _studentBL = studentBL;
         }
-        public IActionResult GetAllGroup(int pageNumber, int pageSize)
+        public IActionResult GetAllGroup(int pageNumber = 1, int pageSize = 10)
         {
             var groups = _groupBL.GetAllGroupWithPaging(pageNumber, pageSize);
             return View(groups);

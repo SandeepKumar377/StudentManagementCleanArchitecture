@@ -14,7 +14,7 @@ namespace StudentManagement.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllTeacher(int pageNumber, int pageSize)
+        public IActionResult GetAllTeacher(int pageNumber = 1, int pageSize = 10)
         {
             var result = _accountBL.GetAllTeacher(pageNumber, pageSize);
             return View(result);
@@ -34,7 +34,7 @@ namespace StudentManagement.Presentation.Controllers
                 bool result = _accountBL.AddTeacher(userVM);
                 if (result)
                 {
-                    return RedirectToAction("");
+                    return RedirectToAction("GetAllTeacher");
                 }
             }
             return View();

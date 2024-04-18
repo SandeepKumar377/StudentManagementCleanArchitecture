@@ -39,11 +39,11 @@ namespace StudentManagement.Presentation.Controllers
         {
             if (user.Role==(int)EnumRoles.Admin)
             {
-                return RedirectToAction("", "User");
+                return RedirectToAction("GetAllTeacher", "User");
             }
             else if (user.Role == (int)EnumRoles.Teacher)
             {
-                return RedirectToAction("", "Exam");
+                return RedirectToAction("GetAllExam", "Exam");
             }
             else
             {

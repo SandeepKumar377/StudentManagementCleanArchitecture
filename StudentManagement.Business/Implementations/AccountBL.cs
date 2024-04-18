@@ -20,6 +20,7 @@ namespace StudentManagement.Business.Implementations
             {
                 User user = new User()
                 {
+                    Name = userVM.Name,
                     UserName = userVM.UserName,
                     Password = userVM.Password,
                     Role = (int)EnumRoles.Teacher

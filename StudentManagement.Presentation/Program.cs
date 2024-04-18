@@ -11,7 +11,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAccountBL, AccountBL>();
+builder.Services.AddScoped<IExamBL, ExamBL>();
 builder.Services.AddScoped<IGroupBL, GroupBL>();
+builder.Services.AddScoped<IQnAsBL, QnAsBL>();
+builder.Services.AddScoped<IStudentBL, StudentBL>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSession(options =>
 {
