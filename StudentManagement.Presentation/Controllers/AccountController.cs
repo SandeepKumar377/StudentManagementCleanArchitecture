@@ -35,6 +35,12 @@ namespace StudentManagement.Presentation.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
         private IActionResult RedirectToUser(LoginVM user)
         {
             if (user.Role==(int)EnumRoles.Admin)
