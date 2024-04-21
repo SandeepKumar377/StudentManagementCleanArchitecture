@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Business.Interfaces;
 using StudentManagement.Models;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace StudentManagement.Presentation.Controllers
@@ -20,7 +23,7 @@ namespace StudentManagement.Presentation.Controllers
         }
         
         [HttpPost]
-        public IActionResult Login(LoginVM loginVM)
+        public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (ModelState.IsValid)
             {
@@ -29,6 +32,14 @@ namespace StudentManagement.Presentation.Controllers
                 {
                     string sessonObj = JsonSerializer.Serialize(user);
                     HttpContext.Session.SetString("loginDeatils", sessonObj);
+
+                    var claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name, loginVM.UserName!)
+                    };
+                    var ClaimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity));
+
                     return RedirectToUser(user);
                 }
             }
@@ -39,6 +50,11 @@ namespace StudentManagement.Presentation.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
+        }
+        
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
         private IActionResult RedirectToUser(LoginVM user)
