@@ -31,7 +31,7 @@ namespace StudentManagement.Business.Implementations
                     Contact = studentVM.Contact,
                     CVFileUrl = studentVM.CVFileUrl,
                     ProfilePictureUrl = studentVM.ProfilePictureUrl,
-                    GroupId = studentVM.GroupId,
+                    //GroupId = studentVM.GroupId,
                 };
                 var result = await _unitOfWork.GenericRepository<Student>().AddAsync(student);
                 _unitOfWork.Save();
@@ -64,6 +64,34 @@ namespace StudentManagement.Business.Implementations
             {
                 return new List<StudentVM>();
             }             
+        }
+
+        public PagingResultVM<StudentPagingVM> GetAllStudentWithPaging(int pageNumber, int pageSize)
+        {
+            try
+            {
+                int excludeRecords = (pageSize * pageNumber) - pageSize;
+                var studentList = _unitOfWork.GenericRepository<Student>().GetAll()
+                    .Skip(excludeRecords).Take(pageSize).Select(s => new StudentPagingVM()
+                    {
+                        StudentId=s.StudentId,
+                        StudentName=s.StudentName,
+                        StudentUserName=s.StudentUserName,
+                        Contact=s.Contact,
+                    }).ToList();
+                var result = new PagingResultVM<StudentPagingVM>
+                {
+                    Data = studentList,
+                    TotalItems = _unitOfWork.GenericRepository<Student>().GetAll().Count(),
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+                return result;
+            }
+            catch (Exception)
+            {
+                return new PagingResultVM<StudentPagingVM>();
+            }
         }
 
         public IEnumerable<ResultVM> GetExamResults(int studentId)

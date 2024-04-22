@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using StudentManagement.Business.Implementations;
 using StudentManagement.Business.Interfaces;
 using StudentManagement.Models;
+using System.Drawing.Printing;
 
 namespace StudentManagement.Presentation.Controllers
 {
@@ -22,9 +24,10 @@ namespace StudentManagement.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllStudent()
+        public IActionResult GetAllStudent(int pageNumber = 1, int pageSize = 10)
         {
-            return View();
+            var result = _studentBL.GetAllStudentWithPaging(pageNumber, pageSize);
+            return View(result);
         }
         
         [HttpGet]
