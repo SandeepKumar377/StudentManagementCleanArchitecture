@@ -1,0 +1,71 @@
+﻿@model StudentManagement.Models.StudentVM
+
+@{
+    ViewData["Title"] = "UpdateStudentProfile";
+}
+
+<h4>Student Profile</h4>
+
+<hr />
+<form asp-action="UpdateStudentProfile" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="StudentId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentName" class="control-label"></label>
+                <input asp-for="StudentName" class="form-control" />
+                <span asp-validation-for="StudentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentUserName" class="control-label"></label>
+                <input readonly asp-for="StudentUserName" class="form-control" />
+                <span asp-validation-for="StudentUserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact" class="control-label"></label>
+                <input asp-for="Contact" class="form-control" />
+                <span asp-validation-for="Contact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group mb-2">
+                        <label class="control-label">Update Profile Picture</label>
+                        <input asp-for="ProfilePicture" class="form-control" />
+                        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Update CV</label>
+                        <input asp-for="CVFile" class="form-control" />
+                        <span asp-validation-for="CVFile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="form-group mb-2">
+                        <img src="@(Model.ProfilePictureUrl==null?"/profiledemoimage.png":Model.ProfilePictureUrl)" style="height:150px; width:120px; margin-top:25px" />
+                        <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @if (Model.CVFileUrl != null)
+                    {
+                        <a href="@Model.CVFileUrl">Download CV</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

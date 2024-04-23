@@ -12,15 +12,21 @@ namespace StudentManagement.Presentation.Controllers
         private readonly IStudentBL _studentBL;
         private readonly IExamBL _examBL;
         private readonly IQnAsBL _qnAsBL;
+        private readonly IUtilityBL _utilityBL;
+        private string StudentImagefolderName = "StudentImages";
+        private string StudentCVfolderName = "StudentCVs";
 
-        public StudentController(IStudentBL studentBL, 
+        public StudentController(
+            IStudentBL studentBL, 
             IExamBL examBL,
-            IQnAsBL qnAsBL
+            IQnAsBL qnAsBL,
+            IUtilityBL utilityBL
             )
         {
             _studentBL = studentBL;
             _examBL = examBL;
             _qnAsBL = qnAsBL;
+            _utilityBL = utilityBL;
         }
 
         [HttpGet]
@@ -33,6 +39,49 @@ namespace StudentManagement.Presentation.Controllers
         [HttpGet]
         public IActionResult CreateStudent()
         {
+            return View();
+        }
+        
+        [HttpGet]
+        public IActionResult UpdateStudentProfile()
+        {
+            var sessionObj = HttpContext.Session.GetString("loginDeatils");
+            if (sessionObj != null)
+            {
+                var loginVM = JsonConvert.DeserializeObject<LoginVM>(sessionObj);
+                var studentDetails = _studentBL.GetStudentById(loginVM!.Id);
+                return View(studentDetails);
+            }
+            return RedirectToAction("Login","Account");
+        }
+        
+        [HttpGet]
+        public IActionResult StudentProfile()
+        {
+            var sessionObj = HttpContext.Session.GetString("loginDeatils");
+            if (sessionObj != null)
+            {
+                var loginVM = JsonConvert.DeserializeObject<LoginVM>(sessionObj);
+                var studentDetails = _studentBL.GetStudentById(loginVM!.Id);
+                return View(studentDetails);
+            }
+            return RedirectToAction("Login","Account");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudentProfile(StudentVM studentVM)
+        {
+            if (ModelState.IsValid)
+            {
+                studentVM.ProfilePictureUrl = studentVM.ProfilePicture != null ? await _utilityBL.SaveImage(StudentImagefolderName, studentVM.ProfilePicture) : "";
+                studentVM.CVFileUrl = studentVM.CVFile != null ? await _utilityBL.SaveImage(StudentCVfolderName, studentVM.CVFile) : "";
+                int studentId = _studentBL.UpdateStudentProfile(studentVM);
+                if (studentId > 0)
+                {
+                    return RedirectToAction("UpdateStudentProfile");
+                }
+                ModelState.AddModelError(string.Empty, "Something went wrong!");
+            }
             return View();
         }
 

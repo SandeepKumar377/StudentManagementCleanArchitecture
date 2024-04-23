@@ -98,12 +98,35 @@ namespace StudentManagement.Business.Implementations
         {
             try
             {
-                return null;
+                return null!;
             }
             catch (Exception)
             {
 
-                return null;
+                return null!;
+            }
+        }
+
+        public StudentVM GetStudentById(int studentId)
+        {
+            try
+            {
+                var studentDetails = _unitOfWork.GenericRepository<Student>().GetById(studentId);
+                var student = new StudentVM()
+                {
+                    StudentId = studentDetails.StudentId,
+                    Password = studentDetails.Password,
+                    StudentName = studentDetails.StudentName,
+                    StudentUserName = studentDetails.StudentUserName,
+                    Contact = studentDetails.Contact,
+                    CVFileUrl = studentDetails.CVFileUrl,
+                    ProfilePictureUrl = studentDetails.ProfilePictureUrl,
+                };
+                return student;
+            }
+            catch (Exception)
+            {
+                return null!;
             }
         }
 
@@ -154,6 +177,29 @@ namespace StudentManagement.Business.Implementations
             {
                 return false;
             }
+        }
+
+        public int UpdateStudentProfile(StudentVM studentVM)
+        {
+            try
+            {
+                var student = _unitOfWork.GenericRepository<Student>().GetById(studentVM.StudentId);
+                if (student != null)
+                {
+                    student.StudentName = studentVM.StudentName;
+                    student.Contact = studentVM.Contact;
+                    student.CVFileUrl = studentVM.CVFileUrl != null ? studentVM.CVFileUrl : student.CVFileUrl;
+                    student.ProfilePictureUrl = studentVM.ProfilePictureUrl != null ? studentVM.ProfilePictureUrl : student.ProfilePictureUrl;
+                    _unitOfWork.GenericRepository<Student>().Update(student);
+                    _unitOfWork.Save();
+                }
+                return student!.StudentId;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+           
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model StudentManagement.Models.StudentVM
+
+@{
+    ViewData["Title"] = "StudentProfile";
+}
+
+<h1>Student Profile</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ProfilePictureUrl" style="height:200px; width:150px" />
+        </div>
+        <div class="col-md-6">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Student Name :</strong>  @Model.StudentName</li>
+                <li class="list-group-item"><strong>Student User Name : </strong> @Model.StudentUserName</li>
+                <li class="list-group-item"><strong>Contact : </strong> @Model.Contact</li>
+                <li class="list-group-item">
+                        @if (Model.CVFileUrl != null)
+                        {
+                            <a href="@Model.CVFileUrl">Download CV</a>
+                        }
+                </li>
+                <li class="list-group-item">
+                   @*  @if (User.IsInRole(GlobalConfiguration.Admin_Role))
+                    { *@
+                    @Html.ActionLink("Update", "UpdateStudentProfile", new { studentId = Model.StudentId }, new { @class = "btn btn-outline-danger" })
+                    @Html.ActionLink("Delete", "StudentProfile", new { studentId = Model.StudentId }, new { @class = "btn btn-outline-danger" })
+                    @* } *@
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="GetAllStudent" asp-controller="Student">Back to List</a>
+</div>

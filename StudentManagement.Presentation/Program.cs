@@ -17,6 +17,7 @@ builder.Services.AddScoped<IGroupBL, GroupBL>();
 builder.Services.AddScoped<IQnAsBL, QnAsBL>();
 builder.Services.AddScoped<IStudentBL, StudentBL>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUtilityBL, UtilityBL>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
