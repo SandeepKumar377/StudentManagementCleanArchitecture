@@ -102,10 +102,10 @@ namespace StudentManagement.Presentation.Controllers
         [HttpGet]
         public IActionResult AttendExam()
         {
-            AttendExamVM attendExamVM = new AttendExamVM();
+            var attendExamVM = new AttendExamVM();
             string loginObj = HttpContext.Session.GetString("loginDeatils")!;
             LoginVM loginVM = JsonConvert.DeserializeObject<LoginVM>(loginObj)!;
-            if (loginVM == null)
+            if (loginVM != null)
             {
                 attendExamVM.StudentId = loginVM!.Id;
                 var todayExam = _examBL.GetAllExamList().Where(x => x.StartDate.Date == DateTime.Today.Date).FirstOrDefault();
@@ -120,6 +120,7 @@ namespace StudentManagement.Presentation.Controllers
                     {
                         attendExamVM.QnAsVMs= _qnAsBL.GetAllQnAsByExamId(todayExam.ExamId).ToList();
                         attendExamVM.ExamName = todayExam.Title;
+                        attendExamVM.Message = "";
                         return View(attendExamVM);
                     }
                     else

@@ -86,11 +86,11 @@ namespace StudentManagement.Business.Implementations
             }
         }
 
-        public async Task<GroupVM> GetGroup(int id)
+        public async Task<GroupVM> GetGroup(int groupId)
         {
             try
             {
-                var group = await _unitOfWork.GenericRepository<Group>().GetByIdAsync(id);
+                var group = await _unitOfWork.GenericRepository<Group>().GetByIdAsync(groupId);
                 GroupVM groupVM = new GroupVM()
                 {
                     GroupId = group.GroupId,

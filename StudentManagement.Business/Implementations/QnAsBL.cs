@@ -95,8 +95,8 @@ namespace StudentManagement.Business.Implementations
         public bool IsAttendExam(int examId, int studentId)
         {
             var result = _unitOfWork.GenericRepository<ExamResult>().GetAll()
-                .Where(x => x.ExamId == examId && x.StudentId == studentId);
-            return result==null?false: true;
+                .Any(x => x.ExamId == examId && x.StudentId == studentId);
+            return result == false ? false : true;
         }
     }
 }

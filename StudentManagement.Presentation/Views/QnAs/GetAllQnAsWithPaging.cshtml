@@ -1,34 +1,37 @@
-﻿@model PagingResultVM<StudentManagement.Models.ExamVM>
+﻿@model PagingResultVM<StudentManagement.Models.QnAsVM>
 
 @{
-    ViewData["Title"] = "GetAllExam";
+    ViewData["Title"] = "GetAllQnAsWithPaging";
 }
 
-<h1>GetAllExam</h1>
+<h1>GetAllQnAsWithPaging</h1>
 
 <p>
-    <a asp-action="CreateExam">Create New Exam</a>
+    <a asp-action="CreateQnAs">Create QnAs New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
+                Question Title
+            </th>
+            <th>
                 Exam Id
             </th>
             <th>
-               Title
+                Answer
             </th>
             <th>
-                Description
+                Option1
             </th>
             <th>
-                Start Date
+                Option2
             </th>
             <th>
-                Time ( In Hours)
+                Option3
             </th>
             <th>
-                GroupId
+                Option4
             </th>
             <th></th>
         </tr>
@@ -37,28 +40,31 @@
 @foreach (var item in Model.Data!) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.QuestionTitle)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.ExamId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Answer)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Option1)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
+                @Html.DisplayFor(modelItem => item.Option2)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Time)
+                @Html.DisplayFor(modelItem => item.Option3)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GroupId)
+                @Html.DisplayFor(modelItem => item.Option4)
             </td>
-           @*  <td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td> *@
+            </td>
         </tr>
 }
     </tbody>
@@ -67,8 +73,8 @@
           cs-paging-pagenumber=(int)Model.PageNumber
           cs-paging-totalitems=(int)Model.TotalItems
           cs-pagenumber-param="pageNumber"
-          asp-controller="Exam"
-          asp-action="GetAllExam"
+          asp-controller="QnAs"
+          asp-action="GetAllQnAsWithPaging"
           cs-pager-li-current-class="page-item active"
           cs-pager-li-other-class="page-item"
           cs-pager-li-non-active-class="page-item disabled"

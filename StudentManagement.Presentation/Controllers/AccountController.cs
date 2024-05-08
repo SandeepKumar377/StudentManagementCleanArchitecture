@@ -69,7 +69,7 @@ namespace StudentManagement.Presentation.Controllers
             }
             else
             {
-                return RedirectToAction("GetAllStudent", "Student");
+                return RedirectToAction("StudentProfile", "Student");
             }
         }
     }

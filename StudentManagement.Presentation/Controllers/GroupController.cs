@@ -45,6 +45,7 @@ namespace StudentManagement.Presentation.Controllers
             var group = await _groupBL.GetGroup(groupId);
             var students = _studentBL.GetAllStudent();
             groupStudentVM.GroupId = group.GroupId;
+            groupStudentVM.CheckBoxTables = new List<CheckBoxTable>();
             foreach (var student in students)
             {
                 groupStudentVM.CheckBoxTables!.Add(new CheckBoxTable
