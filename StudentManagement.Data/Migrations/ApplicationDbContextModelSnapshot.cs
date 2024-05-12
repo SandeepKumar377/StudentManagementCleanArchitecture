@@ -66,12 +66,17 @@ namespace StudentManagement.Data.Migrations
                     b.Property<int>("ExamId")
                         .HasColumnType("int");
 
+                    b.Property<int>("QnAsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("ExamResultId");
 
                     b.HasIndex("ExamId");
+
+                    b.HasIndex("QnAsId");
 
                     b.HasIndex("StudentId");
 
@@ -224,15 +229,24 @@ namespace StudentManagement.Data.Migrations
                         .WithMany("ExamResults")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ExamResults_Exams");
+
+                    b.HasOne("StudentManagement.Data.Entities.QnAs", "QnAs")
+                        .WithMany("ExamResults")
+                        .HasForeignKey("QnAsId")
+                        .IsRequired()
+                        .HasConstraintName("FK_ExamResults_QnAs");
 
                     b.HasOne("StudentManagement.Data.Entities.Student", "Student")
                         .WithMany("ExamResults")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ExamResults_Users");
 
                     b.Navigation("Exam");
+
+                    b.Navigation("QnAs");
 
                     b.Navigation("Student");
                 });
@@ -269,6 +283,11 @@ namespace StudentManagement.Data.Migrations
                     b.Navigation("Exams");
 
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("StudentManagement.Data.Entities.QnAs", b =>
+                {
+                    b.Navigation("ExamResults");
                 });
 
             modelBuilder.Entity("StudentManagement.Data.Entities.Student", b =>

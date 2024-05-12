@@ -78,7 +78,7 @@ namespace StudentManagement.Presentation.Controllers
                 int studentId = _studentBL.UpdateStudentProfile(studentVM);
                 if (studentId > 0)
                 {
-                    return RedirectToAction("UpdateStudentProfile");
+                    return RedirectToAction("StudentProfile");
                 }
                 ModelState.AddModelError(string.Empty, "Something went wrong!");
             }
@@ -137,13 +137,19 @@ namespace StudentManagement.Presentation.Controllers
         public IActionResult AttendExam(AttendExamVM attendExamVM)
         {
             bool result = _studentBL.SetExamResult(attendExamVM);
-            return RedirectToAction("");
+            return RedirectToAction("ExamResult");
         }
 
-        public IActionResult Result(int studentId)
+        public IActionResult ExamResult()
         {
-            var data = _studentBL.GetExamResults(studentId);
-            return View(data);
+            var sessionObj = HttpContext.Session.GetString("loginDeatils");
+            if (sessionObj != null)
+            {
+                var loginVM = JsonConvert.DeserializeObject<LoginVM>(sessionObj);
+                var data = _studentBL.GetExamResults(Convert.ToInt32(loginVM!.Id));
+                return View(data);
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }

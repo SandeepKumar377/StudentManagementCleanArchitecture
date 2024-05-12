@@ -98,12 +98,30 @@ namespace StudentManagement.Business.Implementations
         {
             try
             {
-                return null!;
+                var examResult = _unitOfWork.GenericRepository<ExamResult>().GetAll()
+                    .Where(x => x.StudentId == studentId);
+                var students = _unitOfWork.GenericRepository<Student>().GetAll();
+                var exmas = _unitOfWork.GenericRepository<Exam>().GetAll();
+                var qnas = _unitOfWork.GenericRepository<QnAs>().GetAll();
+
+                var requiredData = examResult.Join(students, er => er.StudentId, s => s.StudentId, (er, st) => new { er, st })
+                    .Join(exmas, erj => erj.er.ExamId, ex => ex.ExamId, (erj, ex) => new { erj, ex })
+                    .Join(qnas, exj => exj.erj.er.QnAsId, q => q.QnAsId, (exj, q) =>
+                    new ResultVM()
+                    {
+                        StudentId = studentId,
+                        ExamName = exj.ex.Title,
+                        TotalQuestion = examResult.Count(a => a.StudentId == studentId && a.ExamId == exj.ex.ExamId),
+                        CorrectAnswer = examResult.Count(a => a.StudentId == studentId && a.ExamId == exj.ex.ExamId && a.Answer == q.Answer),
+                        WrongAnswer = examResult.Count(a => a.StudentId == studentId && a.ExamId == exj.ex.ExamId && a.Answer != q.Answer),
+                    });
+
+                return requiredData;
             }
             catch (Exception)
             {
 
-                return null!;
+                return Enumerable.Empty<ResultVM>();
             }
         }
 
@@ -139,7 +157,7 @@ namespace StudentManagement.Business.Implementations
                     ExamResult result = new ExamResult();
                     result.StudentId = attendExamVM.StudentId;
                     result.ExamId = item.ExamId;
-                    //result.QnAsId = item.QnAsId;
+                    result.QnAsId = item.QnAsId;
                     result.Answer = item.Answer;
                     _unitOfWork.GenericRepository<ExamResult>().Add(result);
                     _unitOfWork.Save();
