@@ -45,7 +45,7 @@ namespace StudentManagement.Business.Implementations
             try
             {
                 int excludeRecords = (pageSize * pageNumber) - pageSize;
-                var examList = _unitOfWork.GenericRepository<Exam>().GetAll()
+                var examList = _unitOfWork.GenericRepository<Exam>().GetAll(includeProperties: "Group")
                     .Skip(excludeRecords).Take(pageSize).Select(s => new ExamVM()
                     {
                         ExamId=s.ExamId,
@@ -54,6 +54,7 @@ namespace StudentManagement.Business.Implementations
                         StartDate = s.StartDate,
                         Time = s.Time,
                         GroupId = s.GroupId,
+                        GroupName = s.Group!.GroupName,
                     }).ToList();
                 var result = new PagingResultVM<ExamVM>
                 {

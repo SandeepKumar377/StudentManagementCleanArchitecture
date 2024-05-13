@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentManagement.Business.Interfaces;
 using StudentManagement.Models;
+using StudentManagement.Presentation.Filters;
 
 namespace StudentManagement.Presentation.Controllers
 {
+    [RoleAuthorize(2)]
     public class ExamController : Controller
     {
         private readonly IGroupBL _groupBL;

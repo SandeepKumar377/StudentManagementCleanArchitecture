@@ -52,7 +52,7 @@ namespace StudentManagement.Presentation.Controllers
                 {
                     Id = student.StudentId,
                     Name = student.StudentName,
-                    IsChecked = false
+                    IsChecked = student.GroupId == null ? false : true
                 });
             }
             return View(groupStudentVM);

@@ -11,6 +11,7 @@ namespace StudentManagement.Models
         public int ExamId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
+        public string? GroupName { get; set; }
         public DateTime StartDate { get; set; }
         public int Time { get; set; }
         public int GroupId { get; set; }
