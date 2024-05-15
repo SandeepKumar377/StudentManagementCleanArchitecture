@@ -32,11 +32,14 @@ namespace StudentManagement.Presentation.Controllers
         [HttpPost]
         public IActionResult CreateQnAs(QnAsVM qnAsVM)
         {
-           var result = _qnAsBL.CreateQnAs(qnAsVM);
-            if (result)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("GetAllQnAsWithPaging");
-            }
+                var result = _qnAsBL.CreateQnAs(qnAsVM);
+                if (result)
+                {
+                    return RedirectToAction("GetAllQnAsWithPaging");
+                }
+            }           
             return View();
         }
         

@@ -4,6 +4,7 @@ using StudentManagement.Business.Implementations;
 using StudentManagement.Business.Interfaces;
 using StudentManagement.Data;
 using StudentManagement.Data.UnitOfWork;
+using StudentManagement.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,14 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IAccountBL, AccountBL>();
-builder.Services.AddScoped<IExamBL, ExamBL>();
-builder.Services.AddScoped<IGroupBL, GroupBL>();
-builder.Services.AddScoped<IQnAsBL, QnAsBL>();
-builder.Services.AddScoped<IStudentBL, StudentBL>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IUtilityBL, UtilityBL>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddApplicationService();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.LoginPath = "/Account/Login";

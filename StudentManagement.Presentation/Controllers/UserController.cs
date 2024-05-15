@@ -29,6 +29,7 @@ namespace StudentManagement.Presentation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateUser(UserVM userVM)
         {
             if (ModelState.IsValid)

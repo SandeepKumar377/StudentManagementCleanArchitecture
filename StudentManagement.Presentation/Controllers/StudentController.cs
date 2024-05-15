@@ -43,19 +43,6 @@ namespace StudentManagement.Presentation.Controllers
         }
         
         [HttpGet]
-        public IActionResult UpdateStudentProfile()
-        {
-            var sessionObj = HttpContext.Session.GetString("loginDeatils");
-            if (sessionObj != null)
-            {
-                var loginVM = JsonConvert.DeserializeObject<LoginVM>(sessionObj);
-                var studentDetails = _studentBL.GetStudentById(loginVM!.Id);
-                return View(studentDetails);
-            }
-            return RedirectToAction("Login","Account");
-        }
-        
-        [HttpGet]
         public IActionResult StudentProfile()
         {
             var sessionObj = HttpContext.Session.GetString("loginDeatils");
@@ -67,7 +54,20 @@ namespace StudentManagement.Presentation.Controllers
             }
             return RedirectToAction("Login","Account");
         }
-        
+
+        [HttpGet]
+        public IActionResult UpdateStudentProfile()
+        {
+            var sessionObj = HttpContext.Session.GetString("loginDeatils");
+            if (sessionObj != null)
+            {
+                var loginVM = JsonConvert.DeserializeObject<LoginVM>(sessionObj);
+                var studentDetails = _studentBL.GetStudentById(loginVM!.Id);
+                return View(studentDetails);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
         [HttpPost]
         public async Task<IActionResult> UpdateStudentProfile(StudentVM studentVM)
         {

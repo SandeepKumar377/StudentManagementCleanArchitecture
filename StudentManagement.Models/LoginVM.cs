@@ -5,7 +5,7 @@ namespace StudentManagement.Models
     public class LoginVM
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="User name is required!")]
         public string? UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]
